@@ -48,7 +48,7 @@ class ApiController extends Controller
         if (Monument::where('id', $id)->exists()) {
             $monument = Monument::find($id);
 
-            $monument->nom = is_null($request-nom) ? $monument->nom : $request->nom;
+            $monument->nom = is_null($request->nom) ? $monument->nom : $request->nom;
             $monument->rue = is_null($request->rue) ? $monument->rue : $request->rue;
             $monument->cp = is_null($request->cp) ? $monument->cp : $request->cp;
             $monument->ville = is_null($request->ville) ? $monument->ville : $request->ville;
@@ -60,11 +60,11 @@ class ApiController extends Controller
             $monument->save();
 
             return response()->json([
-                "message" => "Données monument mis à jour"
+                "message" => "Monument mis à jour"
             ], 200);
         } else {
             return response()->json([
-                "message" => "Monument non trouvé"
+                "message" => "Monument introuvable"
             ], 404);
         }
     }
@@ -79,7 +79,7 @@ class ApiController extends Controller
             ], 202);
         } else {
             return response()->json([
-                "message" => "Monument non trouvé"
+                "message" => "Monument introuvable"
             ], 404);
         }
     }
@@ -105,7 +105,7 @@ class ApiController extends Controller
     }
 
     public function getUser($id) {
-        if (Monument::where('id', $id)->exists()) {
+        if (User::where('id', $id)->exists()) {
             $user = User::where('id', $id)->get()->toJson(JSON_PRETTY_PRINT);
             return response($user, 200);
         } else {
@@ -119,12 +119,12 @@ class ApiController extends Controller
         if (User::where('id', $id)->exists()) {
             $user = User::find($id);
 
-            $user->nom = is_null($request-nom) ? $user->nom : $request->nom;
-            $user->prenom = is_null($request-prenom) ? $user->prenom : $request->prenom;
-            $user->mail = is_null($request-mail) ? $user->mail : $request->mail;
-            $user->login = is_null($request-login) ? $user->login : $request->login;
-            $user->password = is_null($request-password) ? $user->password : $request->password;
-            $user->isAdmin = is_null($request-isAdmin) ? $user->isAdmin : $request->isAdmin;
+            $user->nom = is_null($request->nom) ? $user->nom : $request->nom;
+            $user->prenom = is_null($request->prenom) ? $user->prenom : $request->prenom;
+            $user->mail = is_null($request->mail) ? $user->mail : $request->mail;
+            $user->login = is_null($request->login) ? $user->login : $request->login;
+            $user->password = is_null($request->password) ? $user->password : $request->password;
+            $user->isAdmin = is_null($request->isAdmin) ? $user->isAdmin : $request->isAdmin;
             $user->save();
 
             return response()->json([
@@ -138,7 +138,7 @@ class ApiController extends Controller
     }
 
     public function deleteUser ($id) {
-        if(Monument::where('id', $id)->exists()) {
+        if(User::where('id', $id)->exists()) {
             $user = User::find($id);
             $user->delete();
 
