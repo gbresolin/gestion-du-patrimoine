@@ -17,14 +17,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('students', 'ApiController@getAllStudents');
-Route::get('students/{id}', 'ApiController@getStudent');
-Route::post('students/create', 'ApiController@createStudent');
-Route::put('students/{id}', 'ApiController@updateStudent');
-Route::delete('students/{id}','ApiController@deleteStudent');
-
 Route::get('monuments', 'ApiController@getAllMonuments');
-Route::get('monuments/{id}', 'ApiController@getMonument');
-Route::post('monuments/create', 'ApiController@createMonument');
-Route::put('monuments/upadate/{id}', 'ApiController@updateMonument');
-Route::delete('monuments/delete/{id}','ApiController@deleteMonument');
+Route::get('monument/{id}', 'ApiController@getMonument');
+Route::post('monument/create', 'ApiController@createMonument');
+Route::put('monument/upadate/{id}', 'ApiController@updateMonument');
+Route::delete('monument/delete/{id}','ApiController@deleteMonument');
+
+Route::get('users', 'ApiController@getAllUsers');
+Route::get('user/{id}', 'ApiController@getUser');
+Route::post('user/create', 'ApiController@createUser');
+Route::put('user/upadate/{id}', 'ApiController@updateUser');
+Route::delete('user/delete/{id}','ApiController@deleteUser');
