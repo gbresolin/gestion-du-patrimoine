@@ -24,7 +24,7 @@ Route::put('monument/update/{id}', 'ApiController@updateMonument');
 Route::delete('monument/delete/{id}','ApiController@deleteMonument');
 
 Route::get('users', 'ApiController@getAllUsers');
-Route::get('user/{id}', 'ApiController@getUser');
+Route::middleware('auth:api')->get('user/{id}', 'ApiController@getUser');
 Route::post('user/create', 'ApiController@createUser');
 Route::put('user/update/{id}', 'ApiController@updateUser');
 Route::delete('user/delete/{id}','ApiController@deleteUser');

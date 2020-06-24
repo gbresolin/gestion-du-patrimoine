@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Student;
 use App\Monument;
+use Illuminate\Support\Str;
 
 class ApiController extends Controller
 {
@@ -96,6 +97,7 @@ class ApiController extends Controller
         $user->mail = $request->mail;
         $user->login = $request->login;
         $user->password = $request->password;
+        $user->api_token = Str::random(60);
         $user->isAdmin = $request->isAdmin;
         $user->save();
 
