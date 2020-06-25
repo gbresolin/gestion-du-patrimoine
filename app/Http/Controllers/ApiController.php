@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
-use App\Student;
 use App\Monument;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class ApiController extends Controller
@@ -96,10 +96,25 @@ class ApiController extends Controller
         $user->prenom = $request->prenom;
         $user->mail = $request->mail;
         $user->login = $request->login;
-        $user->password = $request->password;
+        $password = Str::random(8);
+        $user->password = bcrypt($password);
+        //$user->password = $request->password;
         $user->api_token = Str::random(60);
         $user->isAdmin = $request->isAdmin;
         $user->save();
+
+        $data['login']  = $user->login;
+        $data['password']  = $password;
+        $data['email']  = $user->mail;
+        $data['name']  = $user->prenom.' '.$user->nom;
+
+        // On envoie un mail à l'utilisateur
+        Mail::send('mail-welcome', $data, function($message) use ($data)
+        {
+            $message->from('no-reply@gestion-patrimoine.com', "Gestion Patrimoine");
+            $message->subject("Bienvenue sur Gestion Patrimoine");
+            $message->to($data['email']);
+        });
 
         return response()->json([
             "message" => "User ajouté !"
@@ -125,9 +140,27 @@ class ApiController extends Controller
             $user->prenom = is_null($request->prenom) ? $user->prenom : $request->prenom;
             $user->mail = is_null($request->mail) ? $user->mail : $request->mail;
             $user->login = is_null($request->login) ? $user->login : $request->login;
-            $user->password = is_null($request->password) ? $user->password : $request->password;
+            //$user->password = is_null($request->password) ? $user->password : $request->password;
+
+            $password = Str::random(8);
+            $user->password = bcrypt($password);
+
+            $user->api_token = Str::random(60);
             $user->isAdmin = is_null($request->isAdmin) ? $user->isAdmin : $request->isAdmin;
             $user->save();
+
+            $data['login']  = $user->login;
+            $data['password']  = $password;
+            $data['email']  = $user->mail;
+            $data['name']  = $user->prenom.' '.$user->nom;
+
+            // On envoie un mail à l'utilisateur
+            Mail::send('mail-welcome', $data, function($message) use ($data)
+            {
+                $message->from('gregory.bresolin@ipilyon.net', "Gestion Patrimoine");
+                $message->subject("Bienvenue sur Gestion Patrimoine");
+                $message->to($data['email']);
+            });
 
             return response()->json([
                 "message" => "Données user mis à jour"
